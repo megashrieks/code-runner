@@ -1,6 +1,5 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
-var os = require('os');
 module.exports = function (file_name, options, extension) {
     return new Promise(function (resolve) {
         var output;

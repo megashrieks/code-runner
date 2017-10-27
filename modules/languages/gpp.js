@@ -1,6 +1,5 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
-var os = require('os');
 module.exports = function (file_name, options,extension) {
     return new Promise(function (resolve) {
         exec('g++ ./temp/'+file_name+extension+' -o '+file_name,function(err,out,serr){
