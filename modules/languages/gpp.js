@@ -13,7 +13,7 @@ module.exports = function (file_name, options,extension) {
             } else {
                 var output;
                 var program = exec(file_name+'.exe',{
-                        timeout:100,
+                        timeout:options.timeout,
                         killSignal:'SIGINT'
                 }, function (err, out, serr) {
                     if (err && err.killed) {
@@ -36,12 +36,12 @@ module.exports = function (file_name, options,extension) {
                         };
                         resolve(output);
                     }
-                });
-                program.stdin.write(options.input);
-                program.stdin.end();
+                    });
                 setTimeout(function () {
                     program.kill('SIGINT');
-                },10);
+                }, options.timeout);
+                program.stdin.write(options.input);
+                program.stdin.end();
                 program.on('close',function(){
                     console.log(":"+program.pid+":");
                     fs.unlink(file_name + '.exe', function (err) {

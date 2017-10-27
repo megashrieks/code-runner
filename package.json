@@ -1,0 +1,19 @@
+{
+  "name": "code-runner",
+  "version": "1.0.0",
+  "description": "The online ide to execute and test your code ,helpful for coding competitions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/megashrieks/code-runner.git"
+  },
+  "author": "Shrikanth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/megashrieks/code-runner/issues"
+  },
+  "homepage": "https://github.com/megashrieks/code-runner#readme"
+}

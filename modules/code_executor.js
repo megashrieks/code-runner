@@ -35,7 +35,7 @@ module.exports = function(code,language,options){
                 fs.unlink('./temp/' + file_name + extension, function (err) {
                     if (err) throw err;
                 });
-                resolve(out.total);
+                resolve(out);
             });
         });
     });
