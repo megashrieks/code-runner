@@ -22,20 +22,20 @@ module.exports = function(code,language,options){
     var extension = '.' + file_types[language].extension;
     var compiler = file_types[language].compiler;
     //file name for the code file
-    var file_name = random_string()+extension;
+    var file_name = random_string();
     //create a file with code on it
     return new Promise(function(resolve){
-        fs.writeFile('./temp/' + file_name, code, function (err) {
+        fs.writeFile('./temp/' + file_name + extension, code, function (err) {
             if (err) throw err;
             //execute the file with the respective compiler
             //returns a promise after compilation
-            var output = compiler(file_name, options);
+            var output = compiler(file_name, options,extension);
             //delete the file after it is used
-            fs.unlink('./temp/'+file_name, function (err) {
-                if (err) throw err;
-            });
-            output.then(function(out){
-                resolve(out);
+            output.then(function (out) {
+                fs.unlink('./temp/' + file_name + extension, function (err) {
+                    if (err) throw err;
+                });
+                resolve(out.total);
             });
         });
     });
