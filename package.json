@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/megashrieks/code-runner/issues"
   },
-  "homepage": "https://github.com/megashrieks/code-runner#readme"
+  "homepage": "https://github.com/megashrieks/code-runner#readme",
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-session": "^1.15.6"
+  }
 }
