@@ -7,7 +7,7 @@ Mostly used in competitive programming servers to run the code according to cert
 
 ```javascript
 
-var runner = require('runner');
+var runner = require('code-runner');
 runner(code,options,function(){
   //callback function
   ...
