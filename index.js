@@ -1,4 +1,4 @@
-var runner = require('./modules/code_executor');
+var runner = require('./modules/code-executor');
 
 runner("#include <stdio.h>\nint main(){while(true){printf(\"yo\");}return 1;}",{
     language:"C",
