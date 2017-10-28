@@ -1,5 +1,6 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
+var terminate = require('terminate');
 module.exports = function (file_name, options,extension) {
     return new Promise(function (resolve) {
         exec('g++ ./temp/'+file_name+extension+' -o '+file_name,function(err,out,serr){
@@ -12,40 +13,42 @@ module.exports = function (file_name, options,extension) {
             } else {
                 var output;
                 var program = exec(file_name+'.exe',{
-                        timeout:options.timeout,
-                        killSignal:'SIGINT'
+                        // timeout:options.timeout,
+                        // killSignal:'SIGINT'
                 }, function (err, out, serr) {
                     if (err && err.killed) {
                         output = {
                             err: true,
                             total: err.signal
                         };
-                        resolve(output);
                     }
                     if(serr){
                         output = {
                             err:true,
                             total:serr
                         };
-                        resolve(output);
                     } else {
                         output = {
                             err: false,
                             total: out
                         };
-                        resolve(output);
                     }
                     });
                 setTimeout(function () {
-                    program.kill('SIGINT');
+                    terminate(program.pid,function(err){
+                        fs.existsSync(file_name + '.exe') && fs.unlink(file_name + '.exe', function () { });
+                        output = {
+                            err: true,
+                            total: '',
+                            killed:true
+                        };
+                    });
                 }, options.timeout);
                 program.stdin.write(options.input);
                 program.stdin.end();
                 program.on('close',function(){
-                    console.log(":"+program.pid+":");
-                    fs.unlink(file_name + '.exe', function (err) {
-                        if (err) console.log("closed : " + err);
-                    });
+                    fs.existsSync(file_name+'.exe') && fs.unlink(file_name + '.exe',function(){});
+                    resolve(output);
                 });
             }
         })

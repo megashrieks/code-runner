@@ -1,8 +1,8 @@
 var runner = require('./modules/code_executor');
 
-runner("n = 0;\nwhile(True):n = n+1","Python",{
+runner("#include <stdio.h>\nint main(){while(true){printf(\"yo\");}return 1;}","C",{
     input:"shrikanth",
-    timeout:150
+    timeout:100
 }).then(function(data){
-    console.log(data);
+    console.error(data);
 });
