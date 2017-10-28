@@ -3,7 +3,7 @@ var gpp = require('./languages/gpp');
 var fs = require('fs');
 
 
-module.exports = function(code,language,options){
+module.exports = function(code,options,cb){
     //define the extension and their compilers
     var file_types = {
         "Python":{
@@ -19,26 +19,31 @@ module.exports = function(code,language,options){
             compiler:gpp
         },
     };
-    var extension = '.' + file_types[language].extension;
-    var compiler = file_types[language].compiler;
+    if(!options){
+        cb(new Error("options not specified"),'');
+        return;
+    }
+    if (!file_types[options.language]) {
+        cb(new Error("unknown language"), '');
+        return;
+    }
+    var extension = '.' + file_types[options.language].extension;
+    var compiler = file_types[options.language].compiler;
     //file name for the code file
     var file_name = random_string();
     //create a file with code on it
-    return new Promise(function(resolve){
         fs.writeFile('./temp/' + file_name + extension, code, function (err) {
             if (err) throw err;
             //execute the file with the respective compiler
-            //returns a promise after compilation
             var output = compiler(file_name, options,extension);
             //delete the file after it is used
             output.then(function (out) {
                 fs.unlink('./temp/' + file_name + extension, function (err) {
                     if (err) throw err;
                 });
-                resolve(out);
+                cb(null,out);
             });
         });
-    });
 }
 
 function random_string(post_str) {

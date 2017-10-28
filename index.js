@@ -1,8 +1,10 @@
 var runner = require('./modules/code_executor');
 
-runner("#include <stdio.h>\nint main(){while(true){printf(\"yo\");}return 1;}","C",{
+runner("#include <stdio.h>\nint main(){while(true){printf(\"yo\");}return 1;}",{
+    language:"C",
     input:"shrikanth",
     timeout:100
-}).then(function(data){
-    console.error(data);
+},function(err,data){
+    if(err) throw err;
+    console.log(data);
 });
