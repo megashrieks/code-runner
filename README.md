@@ -1,4 +1,4 @@
-# Code-runner
+# Code-runner ![build](https://api.travis-ci.org/megashrieks/code-runner.svg?branch=master "build status")
 
 Its an **online programming ide** for the compilation of simple programs,
 Mostly used in competitive programming servers to run the code according to certain set of rules.
