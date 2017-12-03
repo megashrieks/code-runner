@@ -1,6 +1,6 @@
 var runner = require('./modules/code-executor');
 
-runner("#include <stdio.h>\nint main(){while(true){printf(\"yo\");}return 1;}",{
+runner("#include <stdio.h>\nint main(){while(true);return 1;}",{
     language:"C",
     input:"shrikanth",
     timeout:100

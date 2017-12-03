@@ -1,9 +1,14 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
 var terminate = require('terminate');
+var isWindows = process.platform == "win32";
+var outExtension = isWindows ? ".exe" : ".out";
+var delCommand = isWindows ? "del" : "rm";
+var executionPath = isWindows ? "":"./";
+var killed = false;
 module.exports = function (file_name, options,extension) {
     return new Promise(function (resolve) {
-        exec('g++ ./temp/'+file_name+extension+' -o temp/'+file_name,function(err,out,serr){
+        exec('g++ ./temp/'+file_name+extension+' -o temp/'+file_name+outExtension,function(err,out,serr){
             if(err || serr || out){
                 var output = {
                     err:true,
@@ -12,7 +17,7 @@ module.exports = function (file_name, options,extension) {
                 resolve(output);
             } else {
                 var output;
-                var program = exec('cd temp && '+file_name+'.exe', function (err, out, serr) {
+                var program = exec('cd temp && '+executionPath+file_name+outExtension, function (err, out, serr) {
                     if (err && err.killed) {
                         output = {
                             err: true,
@@ -33,18 +38,27 @@ module.exports = function (file_name, options,extension) {
                     });
                 setTimeout(function () {
                     terminate(program.pid,function(err){
-                        fs.existsSync('./temp/' + file_name + '.exe') && exec('cd temp && del ' + file_name + '.exe',console.log)
+                        fs.existsSync('./temp/' + file_name + outExtension) && exec('cd temp && '+delCommand+' ' + file_name + outExtension,console.log);
+			killed = true;
                         output = {
                             err: true,
                             total: '',
-                            killed:true
+                            killed:true,
+			    signal:"SIGKILL"
                         };
                     });
                 }, options.timeout);
                 program.stdin.write(options.input);
                 program.stdin.end();
-                program.on('close',function(){
-                    fs.existsSync('./temp/' + file_name + '.exe') && exec('cd temp && del ' + file_name + '.exe', function () { })
+                program.on('close',function(err,code){
+                    fs.existsSync('./temp/'+file_name+outExtension)&&exec('cd temp && '+delCommand+' '+file_name+outExtension,function(){});
+		    if(code)
+		    	output = {
+                            err: true,
+                            total: '',
+                            killed:true,
+			    signal:code
+			};
                     resolve(output);
                 });
             }
