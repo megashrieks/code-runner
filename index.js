@@ -3,12 +3,12 @@ runner(
   `#include <stdio.h>
   int main(){
     char s[5];
-    scanf("%s",s);
-    printf("%s",s);
+    while(true);
     return 1;
   }`,
   {
-    language: "C"
+    language: "C",
+    timeout:100
   },
   function(err, data) {
     if (err) throw err;

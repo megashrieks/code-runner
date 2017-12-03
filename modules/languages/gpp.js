@@ -57,8 +57,8 @@ module.exports = function(file_name, options, extension) {
             }
           );
           setTimeout(function() {
+            global_timeouts.at_terminate = Date.now();
             terminate(program.pid, function(err) {
-              global_timeouts.at_terminate = Date.now();
               fs.existsSync("./temp/" + file_name + outExtension) &&
                 exec(
                   "cd temp && " + delCommand + " " + file_name + outExtension,
