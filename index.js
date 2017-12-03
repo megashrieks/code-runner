@@ -1,11 +1,14 @@
-var runner = require("./modules/code-executor");
-
+var runner = require("./modules/code-runner");
 runner(
-  "#include <stdio.h>\nint main(){while(true);return 1;}",
+  `#include <stdio.h>
+  int main(){
+    char s[5];
+    scanf("%s",s);
+    printf("%s",s);
+    return 1;
+  }`,
   {
-    language: "C",
-    input: "shrikanth",
-    timeout: 0
+    language: "C"
   },
   function(err, data) {
     if (err) throw err;
