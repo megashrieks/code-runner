@@ -15,4 +15,4 @@ var runner = require("./modules/code-runner");
 //     console.log(data);
 //   }
 // );
-exports["code-runner"] = runner;
+module.exports = runner;
