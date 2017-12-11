@@ -1,8 +1,7 @@
 {
   "name": "code-runner",
-  "version": "1.0.4",
-  "description":
-    "The online ide to execute and test your code ,helpful for coding competitions.",
+  "version": "1.0.7",
+  "description": "The online ide to execute and test your code ,helpful for coding competitions.",
   "main": "index.js",
   "scripts": {
     "test": "exit 0"
